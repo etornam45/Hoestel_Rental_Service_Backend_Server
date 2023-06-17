@@ -5,6 +5,7 @@ const argon2 = require("argon2")
 
 
 const get_owner = async (req, res) => {
+    
   await Owner.findById(req.params.owner_id)
     .then((result) => {
       res.status(200).json({
