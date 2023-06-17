@@ -1,9 +1,24 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const userRouter = require("./routes/user")
+const ownerRouter = require("./routes/owner")
+const mongoose = require('mongoose');
 
 const app = express()
 const PORT = 3000
+
+
+/*
+* TODO
+    must add db url to env var.
+
+
+* It's a good practice to hide the database uri in env variables 
+* but i'll leave it because the batabase is on my local machine
+*
+*/
+
+mongoose.connect('mongodb://127.0.0.1:27017/hostel-renting');
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -16,5 +31,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/user", userRouter)
 
-app.listen(PORT, () => {console.log(`App listerning on http://localhost:${PORT}`)})
+app.use("/api/owner", ownerRouter)
+
+app.listen(PORT, () => {console.log(`App listerning on http://localhost:${PORT}/api/`)})
 

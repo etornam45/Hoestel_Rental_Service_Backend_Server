@@ -1,12 +1,15 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
-const Schema = mongoose
+// const Schema = mongoose
 
-const schema  = new Schema({
-    _id : Schema.Types.ObjectId,
-    first_name: {type: String, required} ,
-    last_name: {type: String, required},
-    password: {type: String, required}
-})
+const schema = new mongoose.Schema({
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+  },
+  first_name: { type: String, required: true },
+  last_name: { type: String, required: true },
+  email: { type: String, required: true},
+  password: { type: String, required: true },
+});
 
-module.exports = mongoose.model("Owner", schema)
+module.exports = mongoose.model("Owner", schema);
