@@ -1,5 +1,5 @@
 const User = require("../models/user");
-// const mongoose = require("mongoose")
+const mongoose = require("mongoose")
 const argon2 = require("argon2");
 
 async function get_user(req, res) {
@@ -10,7 +10,7 @@ async function get_user(req, res) {
         first_name: result.first_name,
         last_name: result.last_name,
         email: result.email,
-        _id: result._id 
+        _id: result._id,
       });
     })
     .catch((error) => {
@@ -52,10 +52,15 @@ add_user = async (req, res) => {
   new_user
     .save()
     .then((result) => {
-      res.json(result);
+      res.status(200).json({
+        last_name: result.last_name,
+        first_name: result.first_name,
+        email: result.email,
+        _id: result._id
+      });
     })
     .catch((err) => {
-      res.json(err);
+      res.status(500).json(err);
     });
 
   //   res.json("User added");
@@ -72,35 +77,44 @@ async function update_user(req, res) {
     res.json("Error hashing password");
   }
 
-  await User.findById(req.params.user_id).then((doc) => {
-    if (doc !== (undefined || null)) {
-      User.updateOne(
-        { _id: req.params.user_id },
-        {
-          first_name: req.body.first_name ? req.body.first_name: doc.first_name,
-          last_name: req.body.last_name ? req.body.last_name : doc.last_name,
-          email: req.body.email ? req.body.email : doc.email,
-          password: req.body.password ? hash : doc.password,
-        }
-      )
-        .then((result) => {
-          req.status(200).json({
-            _id: doc._id,
-            first_name: result.first_name,
-            last_name: result.last_name,
-          });
-        })
-        .catch((err) => {
-          res.status(500).json(err);
-        });
+  User.findOneAndUpdate(
+    {
+      _id: req.params.user_id,
+    },
+    {
+      first_name: req.body.first_name ? req.body.first_name : undefined,
+      last_name: req.body.last_name ? req.body.last_name : undefined,
+      email: req.body.email ? req.body.email : undefined,
+      password: req.body.password ? hash : ud,
     }
-  });
+  )
+    .then((result) => {
+      res.status(200).send({
+        first_name: req.body.first_name
+          ? req.body.first_name
+          : result.first_name,
+        last_name: req.body.last_name ? req.body.last_name : result.last_name,
+        email: req.body.email ? req.body.email : result.email,
+        _id: result._id,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: "user deos not exist",
+      });
+    });
 }
 
 async function delete_user(req, res) {
   await User.findByIdAndDelete(req.params.user_id)
-    .then()
-    .catch((err) => res.json(err));
+    .then((result) => {
+      if (result) {
+        res.status(200).json("user deleted");
+      } else {
+        res.status(404).json({ error: "user not found" });
+      }
+    })
+    .catch((err) => res.status(500).json(err));
 }
 
 module.exports = {
