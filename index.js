@@ -2,6 +2,7 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const userRouter = require("./routes/user")
 const ownerRouter = require("./routes/owner")
+const hostelRouter = require("./routes/hostel")
 const mongoose = require('mongoose');
 
 const app = express()
@@ -32,6 +33,8 @@ app.get("/", (req, res) => {
 app.use("/api/user", userRouter)
 
 app.use("/api/owner", ownerRouter)
+
+app.use("/api/hostel", hostelRouter)
 
 app.listen(PORT, () => {console.log(`App listerning on http://localhost:${PORT}/api/`)})
 
