@@ -5,6 +5,7 @@ const schema = new mongoose.Schema({
   price: Number,
   features: [
     {
+      id: mongoose.Schema.Types.ObjectId,
       name: String,
       total: Number,
       images: [String],
