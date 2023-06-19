@@ -3,6 +3,7 @@ const bodyParser = require("body-parser")
 const userRouter = require("./routes/user")
 const ownerRouter = require("./routes/owner")
 const hostelRouter = require("./routes/hostel")
+const roomRouter = require("./routes/room")
 const mongoose = require('mongoose');
 
 const app = express()
@@ -35,6 +36,8 @@ app.use("/api/user", userRouter)
 app.use("/api/owner", ownerRouter)
 
 app.use("/api/hostel", hostelRouter)
+
+app.use("/api/room", roomRouter)
 
 app.listen(PORT, () => {console.log(`App listerning on http://localhost:${PORT}/api/`)})
 

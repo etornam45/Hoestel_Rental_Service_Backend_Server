@@ -1,8 +1,9 @@
+const { get_rooms } = require("../controller/room")
 
 const router = require("express").Router()
 
 
-router.get("/", )
+router.get("/", get_rooms)
 router.get("/:room_id", )
 router.post("/", )
 router.put("/:room_id", )
