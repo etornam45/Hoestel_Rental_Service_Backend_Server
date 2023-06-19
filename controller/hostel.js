@@ -36,7 +36,13 @@ async function add_hostel(req, res) {
 
 async function update_hostel(req, res) {}
 
-async function delete_hostel(req, res) {}
+async function delete_hostel(req, res) {
+  await Hostel.findByIdAndDelete(req.params.id)
+    .then((ersult) => {
+        res.status(200).json("Hostel deleted")
+    })
+    .catch((err) => res.status(500).json(err));
+}
 
 module.exports = {
   get_hostel,
