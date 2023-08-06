@@ -7,14 +7,12 @@ const roomRouter = require("./routes/room")
 const mongoose = require('mongoose');
 
 const app = express()
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 
 
 /*
 * TODO
     must add db url to env var.
-
-
 * It's a good practice to hide the database uri in env variables 
 * but i'll leave it because the batabase is on my local machine
 *
